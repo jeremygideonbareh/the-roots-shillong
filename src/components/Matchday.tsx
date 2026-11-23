@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP, motionOff, isTouch, revealWords, revealUp } from '../lib/motion';
+import { gsap, useGSAP, motionOff, isTouch, revealWords, revealUp, touchReelDrift } from '../lib/motion';
 import { MATCHDAY_A, MATCHDAY_B, post, thumb, type Shot } from '../data/content';
 import Split from './Split';
 import Marquee from './Marquee';
@@ -26,8 +26,12 @@ export default function Matchday() {
     () => {
       revealWords(root.current);
       revealUp(root.current);
-      if (motionOff() || isTouch()) return;
+      if (motionOff()) return;
       const q = gsap.utils.selector(root);
+      if (isTouch()) {
+        const offs = (q('[data-reel]') as HTMLElement[]).map((s) => touchReelDrift(s, root.current!, s.dataset.reel === 'r'));
+        return () => offs.forEach((o) => o());
+      }
       const st = { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true };
       const a = q('[data-reel="l"] .reel-row')[0] as HTMLElement;
       const b = q('[data-reel="r"] .reel-row')[0] as HTMLElement;

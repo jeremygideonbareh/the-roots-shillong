@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { gsap, useGSAP, motionOff, isTouch, revealWords, scrollVelocity } from '../lib/motion';
+import { gsap, useGSAP, motionOff, isTouch, revealWords, scrollVelocity, touchReelDrift } from '../lib/motion';
 import { ALL_A, ALL_B, IG, thumb } from '../data/content';
 import Split from './Split';
 
@@ -10,8 +10,12 @@ export default function Archive() {
   useGSAP(
     () => {
       revealWords(root.current);
-      if (motionOff() || isTouch()) return;
+      if (motionOff()) return;
       const q = gsap.utils.selector(root);
+      if (isTouch()) {
+        const offs = (q('.reel-scroller') as HTMLElement[]).map((s, i) => touchReelDrift(s, root.current!, i === 1));
+        return () => offs.forEach((o) => o());
+      }
       const rows = q('.reel-row') as HTMLElement[];
       const st = { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true, invalidateOnRefresh: true };
       gsap.fromTo(rows[0], { x: 0 }, { x: () => -(rows[0].scrollWidth - innerWidth), ease: 'none', scrollTrigger: st });

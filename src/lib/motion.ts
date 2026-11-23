@@ -95,6 +95,32 @@ export async function warmLazyImages() {
 
 export const scrollVelocity = () => (lenis ? lenis.velocity : 0);
 
+/**
+ * Phones keep their reels as native swipe rows (transforms there left an empty, unswipeable row),
+ * but they still move: page scroll drives the row's own scrollLeft, and a swipe takes over for a moment.
+ */
+export function touchReelDrift(scroller: HTMLElement, trigger: Element, reverse = false) {
+  let heldUntil = 0;
+  const hold = () => (heldUntil = performance.now() + 2500);
+  scroller.addEventListener('touchstart', hold, { passive: true });
+  scroller.addEventListener('scroll', () => performance.now() < heldUntil && hold(), { passive: true });
+  const st = ScrollTrigger.create({
+    trigger,
+    start: 'top bottom',
+    end: 'bottom top',
+    onUpdate: (self) => {
+      if (performance.now() < heldUntil) return;
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      const p = reverse ? 1 - self.progress : self.progress;
+      scroller.scrollLeft = max * p;
+    },
+  });
+  return () => {
+    st.kill();
+    scroller.removeEventListener('touchstart', hold);
+  };
+}
+
 /** Word-by-word heading reveal, triggered as the heading enters. */
 export function revealWords(scope: Element | null, selector = '[data-split]') {
   if (!scope || motionOff()) return;

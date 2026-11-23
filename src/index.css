@@ -186,16 +186,12 @@ html.lenis body {
 }
 html.touch .reel-scroller {
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding-inline: 1rem;
 }
 html.touch .reel-scroller::-webkit-scrollbar {
   display: none;
-}
-html.touch .reel-scroller .reel-row > * {
-  scroll-snap-align: center;
 }
 
 .marquee-row {
