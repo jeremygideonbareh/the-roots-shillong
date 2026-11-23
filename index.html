@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" class="is-loading">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="The Roots (Ki Thied Tynrai) — events, photo and video, live streaming, social media, design and print from Shillong. Your all-in-one creative and event partner." />
+    <meta name="theme-color" content="#efe8df" />
+    <title>The Roots — Ki Thied Tynrai, Shillong</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="The Roots — Ki Thied Tynrai, Shillong" />
+    <meta property="og:description" content="Events · Photo/Video · Live Streaming · Social Media · Design · Print. Your all-in-one creative & event partner." />
+    <meta property="og:url" content="https://jeremygideonbareh.github.io/the-roots-shillong/" />
+    <meta property="og:image" content="https://jeremygideonbareh.github.io/the-roots-shillong/img/DXcFhjcj2wa_01.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232d2330'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23efe8df'%3ER%3C/text%3E%3C/svg%3E" />
+    <script>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try {
+          if (localStorage.getItem('roots-motion') === 'off') d.classList.add('motion-off');
+        } catch (e) {}
+        if (window.matchMedia && matchMedia('(pointer: coarse)').matches) d.classList.add('touch');
+        // failsafe: if the app never finishes booting, don't leave the page behind the loader
+        setTimeout(function () {
+          if (!d.classList.contains('is-loading')) return;
+          d.classList.remove('is-loading');
+          var l = document.querySelector('[data-loader]');
+          if (l) l.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 12000);
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,50..100;1,9..144,300..600,50..100&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding:2rem;font-family:sans-serif">The Roots — Ki Thied Tynrai. Events · Photo/Video · Live Streaming · Social Media · Design · Print. Find us on Instagram: @therootsshillong</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

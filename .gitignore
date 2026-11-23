@@ -1,0 +1,10 @@
+node_modules
+dist
+.claude
+
+# raw Instagram scrape (full-size originals + scraper output); the site uses the web-sized copies in public/img
+assets/
+
+.DS_Store
+*.log
+*.tsbuildinfo
