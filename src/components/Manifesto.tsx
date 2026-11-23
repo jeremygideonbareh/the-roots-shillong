@@ -26,8 +26,12 @@ export default function Manifesto() {
           : { trigger: root.current, start: 'top top', end: () => `+=${innerHeight * SCROLL_MAP.manifesto}`, scrub: true, pin: true },
       });
       tl.fromTo(words, { opacity: 0.14 }, { opacity: 1, stagger: 0.06, ease: 'none', duration: 0.5 }, 0)
-        .set(vine, { autoAlpha: 1 }, 0.001)
-        .to(vine, { strokeDashoffset: 0, ease: 'none', duration: words.length * 0.06 + 0.5 }, 0)
+        .set(vine[0], { autoAlpha: 1 }, 0.001)
+        .to(vine[0], { strokeDashoffset: 0, ease: 'none', duration: words.length * 0.06 + 0.5 }, 0)
+        .set(vine[1], { autoAlpha: 1 }, words.length * 0.024)
+        .to(vine[1], { strokeDashoffset: 0, ease: 'none', duration: 0.6 }, words.length * 0.024)
+        .set(vine[2], { autoAlpha: 1 }, words.length * 0.048)
+        .to(vine[2], { strokeDashoffset: 0, ease: 'none', duration: 0.6 }, words.length * 0.048)
         .fromTo(q('[data-gloss]'), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.4);
     },
     { scope: root },

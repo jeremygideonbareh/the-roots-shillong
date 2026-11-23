@@ -36,7 +36,7 @@ export default function Paper() {
 
       if (!isTouch() && preview.current) {
         const p = preview.current;
-        gsap.set(p, { xPercent: 12, yPercent: -62, scale: 0, autoAlpha: 0 });
+        gsap.set(p, { xPercent: 0, yPercent: -50, scale: 0, autoAlpha: 0 });
         const xTo = gsap.quickTo(p, 'x', { duration: 0.6, ease: 'power3.out' });
         const yTo = gsap.quickTo(p, 'y', { duration: 0.6, ease: 'power3.out' });
         const rTo = gsap.quickTo(p, 'rotate', { duration: 0.8, ease: 'power3.out' });
@@ -44,9 +44,9 @@ export default function Paper() {
         const list = q('[data-screen-list]')[0] as HTMLElement;
         const move = (e: PointerEvent) => {
           const b = list.getBoundingClientRect();
-          xTo(e.clientX - b.left + 40);
+          xTo(b.width * 0.64);
           yTo(e.clientY - b.top);
-          rTo(Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.6)));
+          rTo(Math.max(-8, Math.min(8, (e.clientX - lastX) * 0.5)));
           lastX = e.clientX;
         };
         const enter = () => gsap.to(p, { scale: 1, autoAlpha: 1, duration: 0.5, ease: 'expo.out' });

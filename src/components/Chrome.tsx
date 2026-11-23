@@ -43,15 +43,24 @@ export default function Chrome() {
     if (off || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     try {
       if (localStorage.getItem('roots-motion-note')) return;
-      localStorage.setItem('roots-motion-note', '1');
     } catch {
       return;
     }
-    const t = setTimeout(() => setNote(true), 7000);
-    const h = setTimeout(() => setNote(false), 16000);
+    const t = setTimeout(() => {
+      setNote(true);
+      try {
+        localStorage.setItem('roots-motion-note', '1');
+      } catch {
+        // fine: it may show once more next visit
+      }
+    }, 6000);
+    const onScroll = () => {
+      if (window.scrollY > innerHeight * 3) setNote(false);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       clearTimeout(t);
-      clearTimeout(h);
+      window.removeEventListener('scroll', onScroll);
     };
   }, [off]);
 
@@ -276,6 +285,9 @@ export default function Chrome() {
         Motion is on.
         <button type="button" onClick={() => setMotion(false)} className="min-h-9 underline decoration-clay underline-offset-4" tabIndex={note ? 0 : -1}>
           Turn it off
+        </button>
+        <button type="button" onClick={() => setNote(false)} aria-label="Keep motion on and close" className="min-h-9 px-1 text-oat/70 hover:text-oat" tabIndex={note ? 0 : -1}>
+          ✕
         </button>
       </div>
     </>

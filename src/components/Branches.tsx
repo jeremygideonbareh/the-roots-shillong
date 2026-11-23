@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, useGSAP, motionOff, SCROLL_MAP, revealWords } from '../lib/motion';
+import { gsap, useGSAP, motionOff, SCROLL_MAP, revealWords, getLenis } from '../lib/motion';
 import { BRANCHES, img, post, srcset } from '../data/content';
 import Split from './Split';
 
@@ -53,6 +53,28 @@ export default function Branches() {
         .to(line, { strokeDashoffset: 0, ease: 'none', duration: SCROLL_MAP.branchesPerCard * BRANCHES.length }, '<')
         .to({}, { duration: SCROLL_MAP.branchesTail });
 
+      // Tab into a card: scroll the page to where the timeline shows that card, and never let the
+      // browser scroll the clipped section sideways on its own
+      const sec = root.current!;
+      const onFocus = (e: FocusEvent) => {
+        const card = (e.target as Element).closest<HTMLElement>('[data-card]');
+        const st = tl.scrollTrigger;
+        if (!card || !st) return;
+        sec.scrollLeft = 0;
+        const pad = parseFloat(getComputedStyle(track.current!).paddingLeft) || 0;
+        const frac = Math.min(1, Math.max(0, (card.offsetLeft - pad) / Math.max(1, distance())));
+        const p = (SCROLL_MAP.branchesLead + frac * SCROLL_MAP.branchesPerCard * BRANCHES.length) / total;
+        const y = st.start + (st.end - st.start) * p;
+        const lenis = getLenis();
+        if (lenis) lenis.scrollTo(y, { immediate: true, force: true });
+        else window.scrollTo(0, y);
+      };
+      const noSideScroll = () => {
+        if (sec.scrollLeft) sec.scrollLeft = 0;
+      };
+      sec.addEventListener('focusin', onFocus);
+      sec.addEventListener('scroll', noSideScroll);
+
       // inside the moving track: photos counter-drift, numbers slide, nodes pop as their card arrives
       q('[data-card]').forEach((card) => {
         const im = card.querySelector('img');
@@ -64,12 +86,17 @@ export default function Branches() {
         if (node) gsap.fromTo(node, { scale: 0 }, { scale: 1, ease: 'back.out(3)', duration: 0.6, scrollTrigger: { trigger: card, containerAnimation: move, start: 'left 70%', toggleActions: 'play none none reverse' } });
         gsap.fromTo(card, { rotate: 2.5, y: 30 }, { rotate: 0, y: 0, ease: 'none', scrollTrigger: { trigger: card, containerAnimation: move, start: 'left right', end: 'left 40%', scrub: true } });
       });
+      return () => {
+        sec.removeEventListener('focusin', onFocus);
+        sec.removeEventListener('scroll', noSideScroll);
+      };
     },
     { scope: root },
   );
 
+
   return (
-    <section ref={root} id="work" data-tone="#ebe4e6" className="relative h-[100svh] overflow-hidden">
+    <section ref={root} id="work" data-tone="#ebe4e6" className="relative h-[100svh] overflow-clip">
       <div ref={head} className="branches-head absolute inset-x-0 top-0 z-10 flex items-end justify-between gap-6 px-5 pt-20 sm:px-10 sm:pt-24">
         <div>
           <p className="label mb-3 text-plum">02 — Six branches, one team</p>

@@ -1,11 +1,15 @@
+import WIDTHS from './widths.json';
 // Everything on this page comes from The Roots' public Instagram (@therootsshillong) and the
 // posts other accounts co-published with them. Captions quoted below are their own words.
 
 const base = import.meta.env.BASE_URL;
 export const img = (id: string) => `${base}img/${id}.webp`;
 export const thumb = (id: string) => `${base}img/t/${id}.webp`;
-/** 760w thumb for phones, full file for wide screens */
-export const srcset = (id: string) => `${thumb(id)} 760w, ${img(id)} 1800w`;
+/** thumb for phones, full file for wide screens, with each file's real width */
+export const srcset = (id: string) => {
+  const [t, f] = (WIDTHS as Record<string, number[]>)[id] ?? [760, 1440];
+  return `${thumb(id)} ${t}w, ${img(id)} ${f}w`;
+};
 export const LOGO_INK = `${base}img/logo-ink.png`;
 export const LOGO_LIGHT = `${base}img/logo-light.png`;
 
@@ -23,7 +27,7 @@ export const HERO_TILES: Shot[] = [
   { id: 'DXcFhjcj2wa_03', alt: 'A Shillong Lajong player celebrates under the floodlights' },
   { id: 'DYzf7cOCWPY_02', alt: 'A bride seated in a wood-panelled room, holding her bouquet' },
   { id: 'DXJqCPyielC_02', alt: 'A softbox-lit makeup corner on the set The Roots built for SIFF 2026' },
-  { id: 'DXy5G6uDfkD_02', alt: 'An opposing player caught in the half light at a Lajong match' },
+  { id: 'DXcFhjcj2wa_09', alt: 'A Lajong player lifts a teammate in celebration' },
 ];
 
 export type Branch = { n: string; name: string; line: string; work: string; id: string; alt: string; sc: string };
@@ -78,10 +82,10 @@ export const BRANCHES: Branch[] = [
     n: '06',
     name: 'Print',
     line: 'Invitations, booklets and badges, printed and bound.',
-    work: 'Printing partner for Meghalaya Model United Nations 2026',
-    id: 'DdO-jsHymsp_01',
-    alt: 'Meghalaya Model United Nations 2026 poster naming The Roots as printing partners',
-    sc: 'DdO-jsHymsp',
+    work: 'Wedding invitation suites, made to order',
+    id: 'DQrJbURidEP_01',
+    alt: 'Dark green wedding invitation cards with gold foil monograms',
+    sc: 'DQrJbURidEP',
   },
 ];
 
@@ -97,7 +101,6 @@ export const MATCHDAY_A: Shot[] = [
   { id: 'DXy5G6uDfkD_01', alt: 'Two players rise for a header' },
   { id: 'DXcFhjcj2wa_06', alt: 'Two Lajong players celebrate on the pitch at night' },
   { id: 'DXy5G6uDfkD_03', alt: 'A sliding tackle in front of goal' },
-  { id: 'DXcFhjcj2wa_09', alt: 'A player lifts a teammate in celebration' },
   { id: 'DXy5G6uDfkD_05', alt: 'Number 16 drives forward with the ball' },
   { id: 'DXcFhjcj2wa_02', alt: 'Close portrait of a player shouting in celebration' },
   { id: 'DXy5G6uDfkD_07', alt: 'A defender watches the play in the rain' },
@@ -151,7 +154,7 @@ export const SCREEN: (Shot & { title: string; who: string })[] = [
 
 // every photo, for the closing reels
 export const ALL_A = [
-  'DXcFhjcj2wa_01', 'DXJqCPyielC_01', 'DYwylrtJKgH_01', 'DYzf7cOCWPY_01', 'DW8gEneCbJb_02', 'DRcdHSXj4Yc_01',
+  'DXcFhjcj2wa_01', 'DXJqCPyielC_01', 'DYwylrtJKgH_01', 'DYT5IDIBBAV_01', 'DW8gEneCbJb_02', 'DRcdHSXj4Yc_01',
   'DXy5G6uDfkD_06', 'DXJ1ydoCU4S_03', 'DQrJbURidEP_01', 'DT2uxMciV2h_01', 'DXJqCPyielC_04', 'DYOs-T3iYoc_01',
   'DTNtXGMjxPW_01',
 ];

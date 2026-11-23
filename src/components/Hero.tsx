@@ -48,14 +48,17 @@ export default function Hero() {
       // first frame waits behind the loader
       gsap.set(q('[data-hero-word] .w > span'), { yPercent: 115 });
       gsap.set(q('[data-hero-up]'), { y: 30, autoAlpha: 0 });
-      gsap.set(q('[data-hero-logo]'), { clipPath: 'inset(100% 0% 0% 0%)' });
+      // the loader's mark flies onto this spot; the real logo appears the moment it lands
+      const logo = q('[data-hero-logo]');
+      if (document.documentElement.classList.contains('is-loading')) {
+        gsap.set(logo, { autoAlpha: 0 });
+        window.addEventListener('roots:logo-landed', () => gsap.set(logo, { autoAlpha: 1 }), { once: true });
+      }
       gsap.set(tiles, { clipPath: 'inset(50% 50% 50% 50% round 18px)', scale: 0.7, rotate: (i) => (i % 2 ? -8 : 8) });
 
       const intro = () => {
         const tl = gsap.timeline();
         tl.to(growth, { g: 0.78, duration: 3.4, ease: 'power2.out', onUpdate: setGrowth }, 0)
-          .to(q('[data-hero-logo]'), { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'expo.out' }, 0.15)
-          .from(q('[data-hero-logo] img'), { yPercent: 30, duration: 1.4, ease: 'expo.out' }, 0.15)
           .to(q('[data-hero-word] .w > span'), { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.05 }, 0.45)
           .to(tiles, { clipPath: 'inset(0% 0% 0% 0% round 18px)', scale: 1, rotate: (i) => [-3, 4, -2, 3, -4][i], duration: 1.4, ease: 'expo.out', stagger: 0.09 }, 0.35)
           .to(q('[data-hero-up]'), { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power3.out', stagger: 0.07 }, 0.9);

@@ -357,7 +357,7 @@ html.touch .touch-only { display: block; }
   height: min(calc(100svh - var(--head-h, 15rem) - 7svh - 2.5rem), 640px);
 }
 @media (max-width: 767px) {
-  .track-card { height: min(calc(100svh - var(--head-h, 11rem) - 7svh - 1.5rem), 66svh); }
+  .track-card { height: min(calc(100svh - var(--head-h, 11rem) - 7svh - 1.5rem), 640px); }
 }
 @media (max-height: 820px) and (min-width: 768px) {
   .branches-head h2 { font-size: clamp(1.8rem, 3.4vw, 3.4rem); }
@@ -374,4 +374,11 @@ html.touch .grain::after { animation: none; }
 input,
 textarea {
   cursor: text !important;
+}
+
+/* loader wordmark: a feathered sweep instead of a hard wipe */
+.loader-word {
+  --p: 118%;
+  -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--p) - 16%), transparent var(--p));
+  mask-image: linear-gradient(100deg, #000 calc(var(--p) - 16%), transparent var(--p));
 }

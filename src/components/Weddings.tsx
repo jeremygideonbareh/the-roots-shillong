@@ -46,8 +46,8 @@ export default function Weddings() {
         <div className="space-y-[8svh]">
           {WEDDINGS.map((w, i) => (
             <article key={w.id} data-stack className="stack-card" style={{ zIndex: i + 1 }}>
-              <div data-stack-inner className="relative h-[74svh] origin-top overflow-hidden rounded-[24px] bg-sand shadow-[0_40px_80px_-40px_rgba(45,35,48,0.5)]">
-                <img src={img(w.id)} srcSet={srcset(w.id)} sizes="(max-width: 767px) 92vw, 1150px" alt={w.alt} loading="lazy" className="h-full w-full object-cover" />
+              <div data-stack-inner className="relative mx-auto aspect-square w-[min(74svh,100%)] origin-top overflow-hidden rounded-[24px] bg-sand shadow-[0_40px_80px_-40px_rgba(45,35,48,0.5)]">
+                <img src={img(w.id)} srcSet={srcset(w.id)} sizes="(max-width: 767px) 92vw, 74vh" alt={w.alt} loading="lazy" className="h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
                 <div data-shade className="pointer-events-none absolute inset-0 bg-ink opacity-0" aria-hidden="true" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-oat sm:p-10">
