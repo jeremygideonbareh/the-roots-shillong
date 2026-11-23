@@ -285,15 +285,19 @@ html.touch .reel-scroller::-webkit-scrollbar {
   border: 1.5px solid var(--clay);
 }
 
-/* ---------- reels ---------- */
-.reel-frame { height: 44svh; aspect-ratio: 4 / 5; }
-.reel-frame-wide { height: 44svh; aspect-ratio: 5 / 6; }
-.archive-frame { height: 30svh; aspect-ratio: 4 / 5; }
-.archive-frame-tall { height: 30svh; aspect-ratio: 3 / 4; }
+/* ---------- reels ----------
+   Every frame gets an explicit width as well as a height. Sizing from aspect-ratio alone lets Safari
+   measure the row from the photos' natural widths, so the row came out ~4x too wide and the reels
+   slid into empty space on iPhone. */
+.reel-frame { --fh: 44svh; height: var(--fh); width: calc(var(--fh) * 0.8); }
+.reel-frame-wide { --fh: 44svh; height: var(--fh); width: calc(var(--fh) * 0.8333); }
+.archive-frame { --fh: 30svh; height: var(--fh); width: calc(var(--fh) * 0.8); }
+.archive-frame-tall { --fh: 30svh; height: var(--fh); width: calc(var(--fh) * 0.75); }
 @media (max-width: 767px) {
-  .reel-frame, .reel-frame-wide { height: 52vw; min-height: 220px; }
-  .archive-frame, .archive-frame-tall { height: 44vw; min-height: 170px; }
+  .reel-frame, .reel-frame-wide { --fh: max(52vw, 220px); }
+  .archive-frame, .archive-frame-tall { --fh: max(44vw, 170px); }
 }
+.reel-row > figure > img { min-width: 0; max-width: 100%; }
 
 .touch-only { display: none; }
 html.touch .touch-only { display: block; }
