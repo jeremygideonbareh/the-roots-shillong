@@ -36,7 +36,7 @@ export default function Paper() {
 
       if (!isTouch() && preview.current) {
         const p = preview.current;
-        gsap.set(p, { xPercent: -50, yPercent: -50, scale: 0, autoAlpha: 0 });
+        gsap.set(p, { xPercent: 12, yPercent: -62, scale: 0, autoAlpha: 0 });
         const xTo = gsap.quickTo(p, 'x', { duration: 0.6, ease: 'power3.out' });
         const yTo = gsap.quickTo(p, 'y', { duration: 0.6, ease: 'power3.out' });
         const rTo = gsap.quickTo(p, 'rotate', { duration: 0.8, ease: 'power3.out' });
@@ -44,7 +44,7 @@ export default function Paper() {
         const list = q('[data-screen-list]')[0] as HTMLElement;
         const move = (e: PointerEvent) => {
           const b = list.getBoundingClientRect();
-          xTo(e.clientX - b.left);
+          xTo(e.clientX - b.left + 40);
           yTo(e.clientY - b.top);
           rTo(Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.6)));
           lastX = e.clientX;
@@ -83,7 +83,7 @@ export default function Paper() {
               <img src={thumb(p.id)} alt={p.alt} loading="lazy" className="aspect-[3/4] w-full rounded-[8px] object-cover" />
               <figcaption className="px-1 pb-1 pt-2">
                 <span className="block text-[0.82rem] font-medium leading-tight">{p.title}</span>
-                <span className="label text-[0.62rem] text-ink/55">{p.who}</span>
+                <span className="label text-[0.7rem] text-ink/65">{p.who}</span>
               </figcaption>
             </figure>
           ))}

@@ -42,7 +42,7 @@ export default function Matchday() {
   );
 
   return (
-    <section ref={root} id="matchday" data-tone="#e9e3dc" className="relative overflow-hidden py-24 sm:py-32">
+    <section ref={root} id="matchday" data-tone="#e9e3dc" className="relative overflow-hidden pb-10 pt-24 sm:pb-14 sm:pt-32">
       <div className="mx-auto mb-12 flex max-w-7xl flex-col gap-6 px-5 sm:mb-16 sm:px-10 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="label mb-4 text-plum">04 — Photo · Matchday</p>

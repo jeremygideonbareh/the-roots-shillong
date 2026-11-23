@@ -63,7 +63,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
       const count = q('[data-count]')[0] as HTMLElement;
       const svcLabel = q('[data-svclabel]')[0] as HTMLElement;
-      const t = quick ? 0.35 : 1;
+      const t = quick ? 0.35 : 0.75;
 
       const tl = gsap.timeline();
       tl.from(q('[data-meta]'), { yPercent: 120, duration: 0.8 * t, ease: 'expo.out', stagger: 0.05 })
@@ -111,7 +111,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
 
       <div className="relative flex w-full max-w-[600px] flex-col items-center px-6">
         <svg data-tree viewBox="0 0 600 460" className="w-[min(86vw,520px)]" aria-hidden="true">
-          <path data-tap className="root-line" strokeWidth="2.2" d="M300 0 C 300 80, 296 150, 300 210" />
+          <path data-tap className="root-line" strokeWidth="2.2" d="M300 120 C 300 150, 298 180, 300 210" />
           {BRANCH_PATHS.map((d, i) => (
             <path key={i} data-branch className="root-line" strokeWidth="1.6" d={d} />
           ))}
@@ -119,7 +119,7 @@ export default function Loader({ onDone }: { onDone: () => void }) {
             <circle key={i} data-node cx={x} cy={y} r="6" fill={i % 2 ? '#a8674a' : '#5e4467'} />
           ))}
         </svg>
-        <img data-logo src={LOGO_INK} alt="The Roots — Ki Thied Tynrai" className="absolute top-[30%] w-[min(64vw,380px)]" style={{ clipPath: 'inset(100% 0% 0% 0%)' }} />
+        <img data-logo src={LOGO_INK} alt="The Roots — Ki Thied Tynrai" className="absolute -top-[2%] w-[min(60vw,340px)] rounded-2xl bg-sand px-4 py-3" style={{ clipPath: 'inset(100% 0% 0% 0%)' }} />
       </div>
 
       <div className="absolute bottom-5 left-5 overflow-hidden sm:bottom-8 sm:left-10">

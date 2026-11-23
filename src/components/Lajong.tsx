@@ -1,13 +1,12 @@
 import { useRef, useState } from 'react';
 import { gsap, useGSAP, motionOff, ScrollTrigger, revealWords, revealUp } from '../lib/motion';
-import { KIT, YT, img, post } from '../data/content';
+import { KIT, YT, img, post, srcset } from '../data/content';
 import Split from './Split';
 
 const STEPS = [
-  { k: 'Identity', d: 'Start from the club and the hills it plays for.' },
-  { k: 'Design', d: 'Khasi pattern, colour and crest, line by line.' },
-  { k: 'Campaign', d: '“This is HOME” — tradition and the new kit, side by side.' },
-  { k: 'Launch', d: 'A reel built to make the reveal land.' },
+  { k: 'Home kit', d: 'Club red, with Khasi pattern drawn into the trim and crest.' },
+  { k: 'Away kit', d: 'A cream shirt built from the same story, line by line.' },
+  { k: 'Campaign', d: '“This is HOME” — tradition and the new kit side by side, then a launch reel.' },
 ];
 
 /** Case study: the Shillong Lajong FC 2026 kits. Copy sticks while the design boards stack past. */
@@ -43,8 +42,8 @@ export default function Lajong() {
   );
 
   return (
-    <section ref={root} id="lajong" data-tone="#efe6dc" className="relative overflow-x-clip px-5 py-28 sm:px-10 sm:py-36">
-      <p data-ghost className="font-display pointer-events-none absolute left-0 top-[38%] whitespace-nowrap text-[26vw] italic leading-none text-plum/[0.06]" aria-hidden="true">
+    <section ref={root} id="lajong" data-tone="#efe6dc" className="relative overflow-x-clip px-5 pb-12 pt-28 sm:px-10 sm:pb-16 sm:pt-36">
+      <p data-ghost className="font-display pointer-events-none absolute left-0 top-[38%] whitespace-nowrap text-[26vw] italic leading-none text-plum/[0.1]" aria-hidden="true">
         Shillong Lajong · Shillong Lajong
       </p>
 
@@ -85,8 +84,8 @@ export default function Lajong() {
 
         <div className="space-y-10 sm:space-y-14">
           {KIT.map((k, i) => (
-            <figure key={k.id} data-kit className={`relative overflow-hidden rounded-[22px] ${i === 3 ? 'aspect-[9/12] sm:ml-[18%]' : i === 2 ? 'aspect-[3/4] sm:mr-[12%]' : 'aspect-[3/4]'}`}>
-              <img src={img(k.id)} alt={k.alt} loading="lazy" className="h-full w-full scale-110 object-cover" />
+            <figure key={k.id} data-kit className={`relative overflow-hidden rounded-[22px] ${i === 2 ? 'aspect-[3/4] sm:mr-[12%]' : i === 1 ? 'aspect-[3/4] sm:ml-[8%]' : 'aspect-[3/4]'}`}>
+              <img src={img(k.id)} srcSet={srcset(k.id)} sizes="(max-width: 1023px) 92vw, 48vw" alt={k.alt} loading="lazy" className="h-full w-full scale-110 object-cover" />
               <figcaption data-tag className="label absolute left-4 top-4 rounded-full bg-oat/90 px-3 py-2 text-ink">
                 {k.tag}
               </figcaption>

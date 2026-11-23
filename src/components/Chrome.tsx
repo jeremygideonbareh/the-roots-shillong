@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger, useGSAP, getLenis, motionOff } from '../lib/motion';
+import { gsap, ScrollTrigger, useGSAP, getLenis, motionOff, setMotion } from '../lib/motion';
 import { IG, IG_DM, LOGO_INK, YT } from '../data/content';
 
 const SCENES = [
@@ -35,14 +35,41 @@ export default function Chrome() {
   const [scene, setScene] = useState(-1);
   const [label, setLabel] = useState('');
   const [open, setOpen] = useState(false);
+  const [note, setNote] = useState(false);
+  const off = typeof document !== 'undefined' && document.documentElement.classList.contains('motion-off');
+
+  // motion stays on for everyone; people whose system asks for less get one quiet way out
+  useEffect(() => {
+    if (off || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    try {
+      if (localStorage.getItem('roots-motion-note')) return;
+      localStorage.setItem('roots-motion-note', '1');
+    } catch {
+      return;
+    }
+    const t = setTimeout(() => setNote(true), 7000);
+    const h = setTimeout(() => setNote(false), 16000);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(h);
+    };
+  }, [off]);
 
   useGSAP(() => {
+    // while tucked away the bar is inert, so keyboard focus never lands on something off-screen
     gsap.set(bar.current, { yPercent: -130 });
+    if (bar.current) bar.current.inert = true;
     ScrollTrigger.create({
       start: () => innerHeight * 0.35,
       end: 'max',
-      onEnter: () => gsap.to(bar.current, { yPercent: 0, duration: 0.8, ease: 'expo.out' }),
-      onLeaveBack: () => gsap.to(bar.current, { yPercent: -130, duration: 0.5, ease: 'expo.in' }),
+      onEnter: () => {
+        if (bar.current) bar.current.inert = false;
+        gsap.to(bar.current, { yPercent: 0, duration: 0.8, ease: 'expo.out' });
+      },
+      onLeaveBack: () => {
+        if (bar.current) bar.current.inert = true;
+        gsap.to(bar.current, { yPercent: -130, duration: 0.5, ease: 'expo.in' });
+      },
     });
     const fill = rail.current?.querySelector<HTMLElement>('[data-rail-fill]');
     ScrollTrigger.create({
@@ -239,8 +266,18 @@ export default function Chrome() {
           <a href={IG_DM} target="_blank" rel="noreferrer" className="btn btn-ink mt-6">
             DM for bookings ↗
           </a>
+          <button type="button" onClick={() => setMotion(off)} className="label mt-6 flex min-h-11 items-center gap-2 text-ink/70 hover:text-ink" aria-pressed={!off}>
+            Motion: {off ? 'Off' : 'On'} — tap to turn {off ? 'on' : 'off'}
+          </button>
         </div>
       </aside>
+
+      <div role="status" className={`fixed bottom-4 left-4 z-[65] flex max-w-[calc(100vw-2rem)] items-center gap-3 rounded-full bg-ink px-4 py-2 text-sm text-oat shadow-lg transition-all duration-500 ${note ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-6 opacity-0'}`}>
+        Motion is on.
+        <button type="button" onClick={() => setMotion(false)} className="min-h-9 underline decoration-clay underline-offset-4" tabIndex={note ? 0 : -1}>
+          Turn it off
+        </button>
+      </div>
     </>
   );
 }

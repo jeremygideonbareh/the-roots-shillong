@@ -350,3 +350,28 @@ html.touch .touch-only { display: block; }
 }
 .motion-off .paper-card { position: relative; left: auto; top: auto; width: auto; }
 .motion-off [data-stage-side] { display: none; }
+
+/* ---------- round 1 fixes ---------- */
+/* track cards take the room left under the measured heading */
+.track-card {
+  height: min(calc(100svh - var(--head-h, 15rem) - 7svh - 2.5rem), 640px);
+}
+@media (max-width: 767px) {
+  .track-card { height: min(calc(100svh - var(--head-h, 11rem) - 7svh - 1.5rem), 66svh); }
+}
+@media (max-height: 820px) and (min-width: 768px) {
+  .branches-head h2 { font-size: clamp(1.8rem, 3.4vw, 3.4rem); }
+  .branches-head { padding-top: 5rem; }
+}
+
+/* keeps the roots canvas from drawing through the hero headline */
+.hero-copy-veil {
+  background: radial-gradient(closest-side, rgba(239, 232, 223, 0.88), rgba(239, 232, 223, 0.6) 60%, rgba(239, 232, 223, 0));
+}
+
+html.touch .grain::after { animation: none; }
+
+input,
+textarea {
+  cursor: text !important;
+}

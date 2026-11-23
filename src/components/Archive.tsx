@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { gsap, useGSAP, motionOff, isTouch, revealWords, scrollVelocity, touchReelDrift } from '../lib/motion';
-import { ALL_A, ALL_B, IG, thumb } from '../data/content';
+import { ALL_A, ALL_B, ALT, IG, thumb } from '../data/content';
 import Split from './Split';
 
 /** The whole archive in two opposing reels that lean with your scroll speed. */
@@ -37,7 +37,7 @@ export default function Archive() {
       <div className="reel-row py-2">
         {ids.map((id, i) => (
           <figure key={id} className={`relative shrink-0 overflow-hidden rounded-[14px] ${i % 2 ? 'archive-frame-tall' : 'archive-frame'}`}>
-            <img src={thumb(id)} alt="" loading="lazy" className="h-full w-full object-cover" />
+            <img src={thumb(id)} alt={ALT[id] ?? 'Work by The Roots'} loading="lazy" className="h-full w-full object-cover" />
           </figure>
         ))}
       </div>
@@ -49,7 +49,7 @@ export default function Archive() {
       <div className="mx-auto mb-12 flex max-w-7xl flex-col gap-4 px-5 sm:px-10 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="label mb-4 text-plum">08 — The archive</p>
-          <Split text="Every frame here is theirs." className="font-display text-[clamp(2.2rem,5.4vw,5rem)] leading-[0.98]" em={['theirs.']} />
+          <Split text="Every frame here is ours." className="font-display text-[clamp(2.2rem,5.4vw,5rem)] leading-[0.98]" em={['ours.']} />
         </div>
         <a href={IG} target="_blank" rel="noreferrer" className="btn btn-line self-start md:self-auto" data-cursor="Follow">
           More on @therootsshillong <span aria-hidden="true">↗</span>

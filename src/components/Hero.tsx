@@ -133,6 +133,7 @@ export default function Hero() {
       ))}
 
       <div className="hero-copy-wrap absolute z-10">
+        <div className="hero-copy-veil pointer-events-none absolute -inset-[12%] -z-10" aria-hidden="true" />
         <div data-hero-logo className="hero-logo origin-left">
           <img src={LOGO_INK} alt="The Roots — Ki Thied Tynrai" className="w-full" />
         </div>
@@ -147,7 +148,7 @@ export default function Hero() {
               </Fragment>
             ))}
           </h1>
-          <p data-hero-up className="mt-5 flex max-w-[34rem] flex-wrap gap-x-3 gap-y-1 text-[0.95rem] text-ink/75">
+          <p data-hero-up className="mt-5 flex max-w-[40rem] flex-wrap gap-x-3 gap-y-1 text-[0.95rem] text-ink/75">
             {SERVICES.map((s, i) => (
               <span key={s} className="flex items-center gap-3">
                 {s}
@@ -156,9 +157,9 @@ export default function Hero() {
             ))}
           </p>
           <div data-hero-up className="mt-7 flex flex-wrap gap-3">
-            <a href={IG_DM} target="_blank" rel="noreferrer" className="btn btn-ink" data-cursor="DM">
+            <a href="#contact" className="btn btn-ink" data-cursor="Plan">
               Plan your event
-              <span aria-hidden="true">↗</span>
+              <span aria-hidden="true">→</span>
             </a>
             <a href="#work" className="btn btn-line">
               See the work
@@ -167,7 +168,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div data-scroll-cue className="absolute bottom-5 right-5 z-10 flex items-center gap-3 sm:bottom-8 sm:right-10">
+      <div data-scroll-cue className="absolute bottom-5 right-5 z-10 hidden items-center gap-3 sm:bottom-8 sm:right-10 sm:flex">
         <span className="label">Scroll — follow the roots</span>
         <span className="relative block h-10 w-px overflow-hidden bg-ink/20">
           <span className="cue-drop absolute left-0 top-0 block h-1/2 w-px bg-ink" />

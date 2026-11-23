@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { gsap, useGSAP, motionOff, isTouch, SCROLL_MAP, revealWords, revealUp, revealFrames, parallaxImages } from '../lib/motion';
-import { LIVE, SIFF, img, post, thumb } from '../data/content';
+import { LIVE, SIFF, img, post, srcset, thumb } from '../data/content';
 import Split from './Split';
 
 /**
@@ -26,7 +26,7 @@ export default function Stage() {
           : { trigger: window_.current, start: 'top top', end: () => `+=${innerHeight * SCROLL_MAP.stage}`, scrub: true, pin: true, anticipatePin: 1 },
       });
       open
-        .fromTo(q('[data-window]'), { clipPath: touch ? 'inset(12% 10% 12% 10% round 24px)' : 'inset(26% 32% 26% 32% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.inOut', duration: 1 })
+        .fromTo(q('[data-window]'), { clipPath: touch ? 'inset(8% 6% 8% 6% round 24px)' : 'inset(14% 22% 14% 22% round 28px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', ease: 'power2.inOut', duration: 1 })
         .fromTo(q('[data-window] img'), { scale: 1.45 }, { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
         .fromTo(q('[data-stage-line]'), { yPercent: 110 }, { yPercent: 0, stagger: 0.08, duration: 0.4, ease: 'power3.out' }, 0.55)
         .fromTo(q('[data-stage-side]'), { xPercent: 0 }, { xPercent: (i) => (i ? 140 : -140), autoAlpha: 0, ease: 'power2.in', duration: 0.6 }, 0)
@@ -72,7 +72,7 @@ export default function Stage() {
           Screen
         </p>
         <div data-window className="absolute inset-0 z-10">
-          <img src={img('DSOAJH6k9fC_01')} alt="Akcent performing under flame jets and arched stage lights at a Shillong concert" loading="lazy" className="h-full w-full object-cover object-[50%_40%]" />
+          <img src={img('DSOAJH6k9fC_01')} srcSet={srcset('DSOAJH6k9fC_01')} sizes="100vw" alt="Akcent performing under flame jets and arched stage lights at a Shillong concert" loading="lazy" className="h-full w-full object-cover object-[50%_40%]" />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 px-5 pb-10 text-oat sm:px-10 sm:pb-14">
             <p className="label mb-4 overflow-hidden text-oat/80">
@@ -123,13 +123,13 @@ export default function Stage() {
         <div className="mt-28 sm:mt-36">
           <p className="label mb-4 text-plum">Live streaming · LED screens · Concerts</p>
           <Split text="From Kohima to the Khasi hills, live." className="font-display max-w-[18ch] text-[clamp(2rem,4.4vw,4rem)] leading-[1]" em={['live.']} />
-          <div data-live-row className="mt-12 grid grid-cols-1 gap-5 [perspective:1200px] sm:grid-cols-2 lg:grid-cols-4">
+          <div data-live-row className="mt-12 grid grid-cols-1 gap-5 [perspective:1200px] sm:grid-cols-3">
             {LIVE.map((l) => (
               <a key={l.id} href={post(l.sc)} target="_blank" rel="noreferrer" data-live data-cursor="View" className="group block [transform-style:preserve-3d]">
                 <figure className="relative aspect-[4/5] overflow-hidden rounded-[18px]">
                   <img src={thumb(l.id)} alt={l.alt} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <span className="label absolute left-3 top-3 flex items-center gap-2 rounded-full bg-oat/90 px-3 py-1.5 text-ink">
-                    <span className="live-dot h-1.5 w-1.5 rounded-full bg-clay" /> Live
+                    <span className="h-1.5 w-1.5 rounded-full bg-clay" /> Streamed
                   </span>
                 </figure>
                 <p className="font-display mt-3 text-xl">{l.place}</p>

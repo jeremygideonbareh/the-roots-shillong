@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { gsap, useGSAP, motionOff, revealWords, revealUp } from '../lib/motion';
-import { WEDDINGS, img } from '../data/content';
+import { WEDDINGS, img, srcset } from '../data/content';
 import Split from './Split';
 
 /** Weddings as a stack of prints: each card settles on top of the last, which sinks back. */
@@ -16,17 +16,15 @@ export default function Weddings() {
       const cards = q('[data-stack]');
       cards.forEach((card, i) => {
         const inner = card.querySelector('[data-stack-inner]');
+        const shade = card.querySelector('[data-shade]');
         const im = card.querySelector('img');
         if (im) gsap.fromTo(im, { scale: 1.25 }, { scale: 1.02, ease: 'none', scrollTrigger: { trigger: card, start: 'top bottom', end: 'top 11%', scrub: true } });
         const next = cards[i + 1];
         if (!next || !inner) return;
-        gsap.to(inner, {
-          scale: 0.9,
-          rotate: i % 2 ? 1.5 : -1.5,
-          filter: 'brightness(0.82)',
-          ease: 'none',
-          scrollTrigger: { trigger: next, start: 'top bottom', end: 'top 11%', scrub: true },
-        });
+        const st = { trigger: next, start: 'top bottom', end: 'top 11%', scrub: true };
+        gsap.fromTo(inner, { scale: 1, rotate: 0 }, { scale: 0.9, rotate: i % 2 ? 1.5 : -1.5, ease: 'none', scrollTrigger: st });
+        // a dimming layer rather than a CSS filter: cheaper to paint, and it starts from clear
+        if (shade) gsap.fromTo(shade, { opacity: 0 }, { opacity: 0.22, ease: 'none', scrollTrigger: st });
       });
     },
     { scope: root },
@@ -49,8 +47,9 @@ export default function Weddings() {
           {WEDDINGS.map((w, i) => (
             <article key={w.id} data-stack className="stack-card" style={{ zIndex: i + 1 }}>
               <div data-stack-inner className="relative h-[74svh] origin-top overflow-hidden rounded-[24px] bg-sand shadow-[0_40px_80px_-40px_rgba(45,35,48,0.5)]">
-                <img src={img(w.id)} alt={w.alt} loading="lazy" className="h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
+                <img src={img(w.id)} srcSet={srcset(w.id)} sizes="(max-width: 767px) 92vw, 1150px" alt={w.alt} loading="lazy" className="h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+                <div data-shade className="pointer-events-none absolute inset-0 bg-ink opacity-0" aria-hidden="true" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 text-oat sm:p-10">
                   <div>
                     <p className="label text-oat/75">{String(i + 1).padStart(2, '0')} / {String(WEDDINGS.length).padStart(2, '0')}</p>

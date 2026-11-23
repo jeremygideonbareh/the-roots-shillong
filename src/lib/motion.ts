@@ -83,14 +83,19 @@ export function scrollToAnchor(hash: string) {
   scrollToY((el.closest('.pin-spacer') ?? el).getBoundingClientRect().top + window.scrollY);
 }
 
-export async function warmLazyImages() {
+/** Loads lazy images a screen or so before they arrive (including ones sliding in sideways on the track). */
+export function warmLazyImages() {
   if ((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData) return;
-  const urls = new Set(Array.from(document.querySelectorAll<HTMLImageElement>('img[loading="lazy"]'), (i) => i.src));
-  for (const src of urls) {
-    const image = new Image();
-    image.src = src;
-    await image.decode().catch(() => {});
-  }
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        (e.target as HTMLImageElement).loading = 'eager';
+        io.unobserve(e.target);
+      }),
+    { rootMargin: isTouch() ? '100% 50% 100% 50%' : '150% 100% 150% 100%' },
+  );
+  document.querySelectorAll<HTMLImageElement>('img[loading="lazy"]').forEach((i) => io.observe(i));
 }
 
 export const scrollVelocity = () => (lenis ? lenis.velocity : 0);

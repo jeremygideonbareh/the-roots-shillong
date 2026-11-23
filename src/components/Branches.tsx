@@ -1,6 +1,6 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap, useGSAP, motionOff, SCROLL_MAP, revealWords } from '../lib/motion';
-import { BRANCHES, img, post } from '../data/content';
+import { BRANCHES, img, post, srcset } from '../data/content';
 import Split from './Split';
 
 /**
@@ -10,6 +10,19 @@ import Split from './Split';
 export default function Branches() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
+  const head = useRef<HTMLDivElement>(null);
+
+  // cards are sized from the room left under the heading, so short laptop screens never overlap it
+  useEffect(() => {
+    const h = head.current;
+    const sec = root.current;
+    if (!h || !sec) return;
+    const set = () => sec.style.setProperty('--head-h', `${h.offsetTop + h.offsetHeight}px`);
+    set();
+    const ro = new ResizeObserver(set);
+    ro.observe(h);
+    return () => ro.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -44,7 +57,7 @@ export default function Branches() {
       q('[data-card]').forEach((card) => {
         const im = card.querySelector('img');
         const st = { trigger: card, containerAnimation: move, start: 'left right', end: 'right left', scrub: true };
-        if (im) gsap.fromTo(im, { xPercent: -10 }, { xPercent: 10, ease: 'none', scrollTrigger: st });
+        if (im) gsap.fromTo(im, { xPercent: -5 }, { xPercent: 5, ease: 'none', scrollTrigger: st });
         const num = card.querySelector('[data-num]');
         if (num) gsap.fromTo(num, { xPercent: 25 }, { xPercent: -10, ease: 'none', scrollTrigger: st });
         const node = card.querySelector('[data-node]');
@@ -57,7 +70,7 @@ export default function Branches() {
 
   return (
     <section ref={root} id="work" data-tone="#ebe4e6" className="relative h-[100svh] overflow-hidden">
-      <div className="absolute inset-x-0 top-0 z-10 flex items-end justify-between gap-6 px-5 pt-20 sm:px-10 sm:pt-24">
+      <div ref={head} className="branches-head absolute inset-x-0 top-0 z-10 flex items-end justify-between gap-6 px-5 pt-20 sm:px-10 sm:pt-24">
         <div>
           <p className="label mb-3 text-plum">02 — Six branches, one team</p>
           <Split text="What grows from the roots" className="font-display text-[clamp(2rem,4.6vw,4.4rem)] leading-none" em={['roots']} />
@@ -75,12 +88,12 @@ export default function Branches() {
               </p>
               <h3 className="font-display mt-2 text-[clamp(1.8rem,3.4vw,3.2rem)] leading-none">{b.name}</h3>
               <p className="mt-3 max-w-sm text-[0.98rem] text-ink/75">{b.line}</p>
-              <a href={post(b.sc)} target="_blank" rel="noreferrer" className="label mt-5 inline-flex min-h-11 items-center gap-2 text-ink/80 hover:text-clay" data-cursor="View">
+              <a href={post(b.sc)} target="_blank" rel="noreferrer" className="label mt-5 inline-flex min-h-11 items-center gap-2 text-ink/80 underline decoration-clay/60 underline-offset-4 hover:text-clay" data-cursor="View">
                 {b.work} <span aria-hidden="true">↗</span>
               </a>
             </div>
             <figure className="relative order-1 overflow-hidden rounded-[18px]">
-              <img src={img(b.id)} alt={b.alt} loading="lazy" className="h-full w-full scale-[1.22] object-cover" />
+              <img src={img(b.id)} srcSet={srcset(b.id)} sizes="(max-width: 767px) 84vw, 45vw" alt={b.alt} loading="lazy" className="h-full w-full scale-[1.12] object-cover" />
             </figure>
           </article>
         ))}

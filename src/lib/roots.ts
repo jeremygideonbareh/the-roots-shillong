@@ -129,9 +129,8 @@ export class RootsCanvas {
     const bend = this.lean * 26;
     for (const l of this.lines) {
       if (l.pts[0].t > g) continue;
-      ctx.beginPath();
-      let lastX = 0;
-      let lastY = 0;
+      // collect the grown points, then draw a smooth curve through their midpoints
+      const pts: [number, number][] = [];
       let reached = true;
       for (let i = 0; i < l.pts.length; i++) {
         const p = l.pts[i];
@@ -140,17 +139,24 @@ export class RootsCanvas {
         if (p.t > g) {
           // partial last step, so tips grow smoothly instead of popping
           const prev = l.pts[i - 1];
+          const [lx, ly] = pts[pts.length - 1];
           const f = (g - prev.t) / (p.t - prev.t);
-          x = lastX + (x - lastX) * f;
-          y = prev.y + (p.y - prev.y) * f;
+          x = lx + (x - lx) * f;
+          y = ly + (y - ly) * f;
           reached = false;
         }
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-        lastX = x;
-        lastY = y;
+        pts.push([x, y]);
         if (!reached) break;
       }
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (let i = 1; i < pts.length - 1; i++) {
+        const mx = (pts[i][0] + pts[i + 1][0]) / 2;
+        const my = (pts[i][1] + pts[i + 1][1]) / 2;
+        ctx.quadraticCurveTo(pts[i][0], pts[i][1], mx, my);
+      }
+      const [lastX, lastY] = pts[pts.length - 1];
+      ctx.lineTo(lastX, lastY);
       const alpha = 0.34 - l.depth * 0.03;
       ctx.strokeStyle = l.depth % 3 === 2 ? `rgba(168,103,74,${alpha})` : `rgba(94,68,103,${alpha})`;
       ctx.lineWidth = Math.max(0.6, 2.6 - l.depth * 0.36);

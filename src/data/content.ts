@@ -4,6 +4,8 @@
 const base = import.meta.env.BASE_URL;
 export const img = (id: string) => `${base}img/${id}.webp`;
 export const thumb = (id: string) => `${base}img/t/${id}.webp`;
+/** 760w thumb for phones, full file for wide screens */
+export const srcset = (id: string) => `${thumb(id)} 760w, ${img(id)} 1800w`;
 export const LOGO_INK = `${base}img/logo-ink.png`;
 export const LOGO_LIGHT = `${base}img/logo-light.png`;
 
@@ -20,8 +22,8 @@ export const HERO_TILES: Shot[] = [
   { id: 'DSOAJH6k9fC_01', alt: 'Akcent on stage under red and blue concert lights in Shillong' },
   { id: 'DXcFhjcj2wa_03', alt: 'A Shillong Lajong player celebrates under the floodlights' },
   { id: 'DYzf7cOCWPY_02', alt: 'A bride seated in a wood-panelled room, holding her bouquet' },
-  { id: 'DXJqCPyielC_01', alt: 'Guests on the red carpet of the set The Roots built for SIFF 2026' },
-  { id: 'DYOs-T3iYoc_02', alt: '“This is HOME” poster pairing traditional Khasi dress with the 2026 Lajong kit' },
+  { id: 'DXJqCPyielC_02', alt: 'A softbox-lit makeup corner on the set The Roots built for SIFF 2026' },
+  { id: 'DXy5G6uDfkD_02', alt: 'An opposing player caught in the half light at a Lajong match' },
 ];
 
 export type Branch = { n: string; name: string; line: string; work: string; id: string; alt: string; sc: string };
@@ -49,10 +51,10 @@ export const BRANCHES: Branch[] = [
     n: '03',
     name: 'Live Streaming',
     line: 'LED walls and live feeds, from Kohima to Shillong.',
-    work: 'Live coverage and LED screens in Kohima, Nagaland',
-    id: 'DRwKCadCdzc_01',
-    alt: 'A camera on a tripod above a packed open-air gathering in Kohima',
-    sc: 'DRwKCadCdzc',
+    work: 'LED stage and live feed for Deepside Deejays',
+    id: 'DSO2Fz7ieHm_01',
+    alt: 'DJs on a stage wrapped in blue LED panels',
+    sc: 'DSO2Fz7ieHm',
   },
   {
     n: '04',
@@ -77,9 +79,9 @@ export const BRANCHES: Branch[] = [
     name: 'Print',
     line: 'Invitations, booklets and badges, printed and bound.',
     work: 'Printing partner for Meghalaya Model United Nations 2026',
-    id: 'DQrJbURidEP_01',
-    alt: 'Dark green wedding invitation cards with gold foil monograms',
-    sc: 'DQrJbURidEP',
+    id: 'DdO-jsHymsp_01',
+    alt: 'Meghalaya Model United Nations 2026 poster naming The Roots as printing partners',
+    sc: 'DdO-jsHymsp',
   },
 ];
 
@@ -87,7 +89,6 @@ export const KIT: (Shot & { tag: string })[] = [
   { id: 'DYOs-T3iYoc_01', tag: '2026 home kit', alt: 'Design board for the red Shillong Lajong 2026 home kit with Khasi pattern details' },
   { id: 'DW8gEneCbJb_01', tag: '2026 away kit', alt: 'Design board for the cream Shillong Lajong 2026 away kit' },
   { id: 'DYOs-T3iYoc_02', tag: 'Campaign', alt: '“This is HOME” campaign poster with a player and a man in traditional Khasi dress' },
-  { id: 'DYwylrtJKgH_01', tag: 'Launch reel', alt: 'The red Lajong jersey lit by a single strip of light in the dark' },
 ];
 
 export const MATCHDAY_A: Shot[] = [
@@ -110,7 +111,6 @@ export const MATCHDAY_B: Shot[] = [
   { id: 'DXcFhjcj2wa_10', alt: 'Number 10 stands with hands on hips after a chance' },
   { id: 'DXy5G6uDfkD_08', alt: 'A Lajong defender slides in to block' },
   { id: 'DXcFhjcj2wa_04', alt: 'A tattooed hand holding a water bottle at the touchline' },
-  { id: 'DcikC8-h56D_01', alt: 'A live-production monitor showing a Lajong player on screen' },
 ];
 
 export const SIFF: Shot[] = [
@@ -123,16 +123,15 @@ export const SIFF: Shot[] = [
 ];
 
 export const LIVE: (Shot & { place: string; sc: string })[] = [
-  { id: 'DSOAJH6k9fC_01', place: 'Akcent live, Shillong', sc: 'DSOAJH6k9fC', alt: 'Akcent performing beneath flame jets and arched stage lights' },
-  { id: 'DSO2Fz7ieHm_01', place: 'Deepside Deejays', sc: 'DSO2Fz7ieHm', alt: 'DJs on a stage lit by blue LED panels' },
+  { id: 'DcikC8-h56D_01', place: 'Live production · Lajong', sc: 'DcikC8-h56D', alt: 'A live-production monitor showing a Lajong player on screen' },
   { id: 'DRcdHSXj4Yc_01', place: 'Seng Kut Snem 2025', sc: 'DRcdHSXj4Yc', alt: 'A large crowd facing an LED screen under a traditional thatched stage' },
   { id: 'DRwKCadCdzc_01', place: 'Kohima, Nagaland', sc: 'DRwKCadCdzc', alt: 'A long-lens camera above an open-air gathering in Kohima' },
 ];
 
 export const WEDDINGS: (Shot & { title: string; note: string })[] = [
-  { id: 'DXJ1ydoCU4S_03', title: 'Sweet memories', note: 'A garden wedding, frame by frame', alt: 'A couple walking down a flower-lined outdoor aisle' },
+  { id: 'DXJ1ydoCU4S_04', title: 'Sweet memories', note: 'A garden wedding, frame by frame', alt: 'Collage of a bride and groom in the gardens on their wedding day' },
   { id: 'DYzf7cOCWPY_02', title: 'Beautiful beginning', note: 'Getting ready, in natural light', alt: 'A bride sitting with her bouquet in a wooden room' },
-  { id: 'DUncgWpiTWe_01', title: 'M + J', note: 'The details, before the day begins', alt: 'Collage of rings, a wedding dress on a hanger and gold details' },
+  { id: 'DXJ1ydoCU4S_02', title: 'Garden ceremony', note: 'Arches, flowers and the people who came', alt: 'Collage of an outdoor ceremony with white chairs, floral arches and joined hands' },
   { id: 'DXJ1ydoCU4S_01', title: 'The quiet parts', note: 'Family, hands and first looks', alt: 'Collage of a bride with her family on the wedding morning' },
 ];
 
@@ -152,13 +151,13 @@ export const SCREEN: (Shot & { title: string; who: string })[] = [
 
 // every photo, for the closing reels
 export const ALL_A = [
-  'DXcFhjcj2wa_03', 'DXJqCPyielC_01', 'DSOAJH6k9fC_01', 'DYzf7cOCWPY_01', 'DW8gEneCbJb_02', 'DRcdHSXj4Yc_01',
-  'DXy5G6uDfkD_06', 'DXJ1ydoCU4S_02', 'DQrJbURidEP_01', 'DT2uxMciV2h_01', 'DXJqCPyielC_04', 'DYOs-T3iYoc_01',
+  'DXcFhjcj2wa_01', 'DXJqCPyielC_01', 'DYwylrtJKgH_01', 'DYzf7cOCWPY_01', 'DW8gEneCbJb_02', 'DRcdHSXj4Yc_01',
+  'DXy5G6uDfkD_06', 'DXJ1ydoCU4S_03', 'DQrJbURidEP_01', 'DT2uxMciV2h_01', 'DXJqCPyielC_04', 'DYOs-T3iYoc_01',
   'DTNtXGMjxPW_01',
 ];
 export const ALL_B = [
   'DSO2Fz7ieHm_01', 'DXJ1ydoCU4S_04', 'DXcFhjcj2wa_05', 'DRwKCadCdzc_01', 'DUncgWpiTWe_01', 'DXJqCPyielC_06',
-  'DYwylrtJKgH_01', 'DXy5G6uDfkD_01', 'DVgBDfMk-mK_01', 'DXJqCPyielC_03', 'DUfLLJik84Z_01', 'DcikC8-h56D_01',
+  'DXJqCPyielC_05', 'DXy5G6uDfkD_01', 'DVgBDfMk-mK_01', 'DXJqCPyielC_03', 'DUfLLJik84Z_01', 'DcikC8-h56D_01',
   'DXoaqLID9nP_01',
 ];
 
@@ -173,3 +172,15 @@ export const CREDITS = [
   '@khmihcreativesociety',
   '@meghalaya_mun',
 ];
+
+// alt text for archive tiles, gathered from every captioned list above
+const EXTRA_ALT: Record<string, string> = {
+  DYwylrtJKgH_01: 'The red Lajong jersey lit by a single strip of light',
+  DXJ1ydoCU4S_03: 'A couple walking down a flower-lined outdoor aisle',
+  DUncgWpiTWe_01: 'Rings, a wedding dress on a hanger and gold details',
+  DXJqCPyielC_06: 'Visitors in the red-curtained corridor of the SIFF set',
+};
+export const ALT: Record<string, string> = Object.fromEntries(
+  [...HERO_TILES, ...BRANCHES, ...KIT, ...MATCHDAY_A, ...MATCHDAY_B, ...SIFF, ...LIVE, ...WEDDINGS, ...PAPER, ...SCREEN].map((x) => [x.id, x.alt]),
+);
+Object.assign(ALT, EXTRA_ALT, { DSOAJH6k9fC_01: 'Akcent performing under flame jets and stage lights', DRcdHSXj4Yc_01: 'Crowd facing an LED screen at Seng Kut Snem 2025' });

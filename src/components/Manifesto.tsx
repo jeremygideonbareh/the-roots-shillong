@@ -17,7 +17,7 @@ export default function Manifesto() {
       const vine = q<SVGPathElement>('[data-vine]');
       vine.forEach((p) => {
         const len = p.getTotalLength();
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len, autoAlpha: 0 });
       });
       const touch = isTouch();
       const tl = gsap.timeline({
@@ -25,7 +25,8 @@ export default function Manifesto() {
           ? { trigger: root.current, start: 'top 75%', end: 'bottom 60%', scrub: true }
           : { trigger: root.current, start: 'top top', end: () => `+=${innerHeight * SCROLL_MAP.manifesto}`, scrub: true, pin: true },
       });
-      tl.fromTo(words, { opacity: 0.14, x: 6 }, { opacity: 1, x: 0, stagger: 0.06, ease: 'none', duration: 0.5 }, 0)
+      tl.fromTo(words, { opacity: 0.14 }, { opacity: 1, stagger: 0.06, ease: 'none', duration: 0.5 }, 0)
+        .set(vine, { autoAlpha: 1 }, 0.001)
         .to(vine, { strokeDashoffset: 0, ease: 'none', duration: words.length * 0.06 + 0.5 }, 0)
         .fromTo(q('[data-gloss]'), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.6 }, 0.4);
     },

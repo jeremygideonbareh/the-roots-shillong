@@ -72,7 +72,7 @@ export default function Contact() {
           <p className="label mb-4 text-plum">09 — Bookings</p>
           <Split text="Tell us what you’re planning." className="font-display text-[clamp(2.4rem,6vw,5.6rem)] leading-[0.96]" em={['planning.']} />
           <p data-up className="mt-6 max-w-md text-[1.02rem] text-ink/75">
-            Bookings are by DM. Pick what you need, add a date and place, and we’ll copy your brief and open the chat with The Roots.
+            Bookings happen over Instagram DM. Pick what you need, add a date and place, and we’ll copy your brief straight into a message to us.
           </p>
           <div data-up className="mt-8 flex flex-wrap gap-3">
             <a href={IG_DM} target="_blank" rel="noreferrer" className="btn btn-ink" data-cursor="DM">
@@ -103,25 +103,32 @@ export default function Contact() {
           <div className="mt-7 grid gap-5 sm:grid-cols-2">
             <label className="sm:col-span-2">
               <span className="label text-ink/70">The occasion</span>
-              <input value={what} onChange={(e) => setWhat(e.target.value)} placeholder="Wedding, launch, concert, match…" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/35 focus:border-clay" />
+              <input value={what} onChange={(e) => setWhat(e.target.value)} placeholder="Wedding, launch, concert, match…" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/50 focus:border-clay" />
             </label>
             <label>
               <span className="label text-ink/70">When</span>
-              <input value={when} onChange={(e) => setWhen(e.target.value)} placeholder="Date or month" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/35 focus:border-clay" />
+              <input value={when} onChange={(e) => setWhen(e.target.value)} placeholder="Date or month" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/50 focus:border-clay" />
             </label>
             <label>
               <span className="label text-ink/70">Where</span>
-              <input value={where} onChange={(e) => setWhere(e.target.value)} placeholder="Shillong, Jowai, Kohima…" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/35 focus:border-clay" />
+              <input value={where} onChange={(e) => setWhere(e.target.value)} placeholder="Shillong, Jowai, Kohima…" className="mt-2 block min-h-12 w-full border-b border-ink/25 bg-transparent py-2 text-lg outline-none transition-colors placeholder:text-ink/50 focus:border-clay" />
             </label>
           </div>
           <button type="submit" className="btn btn-ink mt-8 w-full justify-center" data-cursor="Send">
             Copy brief & open Instagram <span aria-hidden="true">↗</span>
           </button>
           <p className="mt-3 min-h-[1.5em] text-sm text-ink/70" role="status" aria-live="polite">
-            {status === 'copied' && 'Brief copied — paste it into the chat that just opened.'}
-            {status === 'manual' && 'Couldn’t copy automatically. Your brief: ' + brief().replace(/\n/g, ' · ')}
+            {status === 'copied' && 'Brief copied — paste it into the Instagram chat that just opened.'}
+            {status === 'manual' && 'Couldn’t copy automatically — select the brief below and paste it into the chat.'}
             {status === 'empty' && 'Pick at least one service or tell us the occasion.'}
           </p>
+          {(status === 'copied' || status === 'manual') && (
+            <div className="mt-3 rounded-2xl border border-ink/15 bg-oat/70 p-4">
+              <p className="label mb-2 text-ink/60">Your brief</p>
+              <pre className="whitespace-pre-wrap font-sans text-sm text-ink">{brief()}</pre>
+              <p className="mt-3 text-xs text-ink/60">Not signed in on this computer? Send it from the Instagram app on your phone to @therootsshillong.</p>
+            </div>
+          )}
         </form>
       </div>
 
